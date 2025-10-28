@@ -6,6 +6,6 @@ const rl = createInterface({
 });
 
 
-rl.question("[CS>-[01> :- ", (answer) => {
+rl.question("$ ", (answer) => {
   rl.close();
 });
