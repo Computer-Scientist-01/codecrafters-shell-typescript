@@ -7,7 +7,7 @@ const rl = createInterface({
 
 function REPL() {
   rl.question("$ ", (answer) => {
-    console.log(`${answer}: command not found\n`);
+    console.log(`${answer}: command not found`);
     REPL();
   });
 }
