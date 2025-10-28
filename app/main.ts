@@ -5,24 +5,25 @@ const rl = createInterface({
   output: process.stdout,
 });
 
-function prompt() {
+function command() {
   rl.question("$ ", (answer: string) => {
-    const trimmed = answer.trim();
-    if (trimmed) {
-      const parts = trimmed.split(/\s+/);
-      if (parts[0] === 'exit') {
-        const code = parts[1] ? parseInt(parts[1], 10) : 0;
-        process.exit(code);
-      } else if (parts[0] === 'echo') {
-        console.log(parts.slice(1).join(' '));
-      } else {
-        console.log(`${trimmed}: command not found`);
-      }
+    const tokens = answer.split(' ')
+    let cmd = tokens[0]
+    let args = tokens.slice(1)
+    switch (cmd) {
+      case "exit":
+        process.exit(args[0]);
+        break;
+      case "echo":
+        console.log(args.join(' '));
+        break;
+      case "type":
+        console.log(['echo', 'exit', 'type'].includes(args[0]) ? `${args[0]} is a shell builtin` : `${args[0]}: not found`);
+        break;
+      default:
+        console.log(`${answer}: command not found`);
     }
-    prompt();
+    command();
   });
 }
-
-rl.on('close', () => process.exit(0));
-
-prompt();
+command();
